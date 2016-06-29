@@ -62,7 +62,10 @@ var BankBox = React.createClass({
     render: function() {
         return (
             <div>
-                <h4>Bank Box</h4>
+                <div className="header" id="emboss">
+                    <h1>Z & D Bank</h1>
+                </div>
+                <div id="main">
                 <p>Total money: £{this.totalOfAllAccounts()}</p>
                 <AccountBox
                     onAccountDelete={this.deleteAccount}
@@ -77,6 +80,7 @@ var BankBox = React.createClass({
                     totalType={this.totalByAccountType('Business')}
                 />
                 <FormBox newAccount={this.createNewAccount}/>
+                </div>
             </div>
         );
     }

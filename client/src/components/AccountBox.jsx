@@ -10,7 +10,7 @@ var AccountBox = React.createClass({
                 }.bind(this)
                 return(
                     <div key={index}>
-                        <p>Name: {_.capitalize(acc.owner)}, Amount: £{acc.amount}</p>
+                        <p>Name: {_.capitalize(acc.owner)}, Amount: £{acc.amount.toLocaleString()}</p>
                         <button onClick={deleteMe}>Delete</button>
                     </div>
                     )

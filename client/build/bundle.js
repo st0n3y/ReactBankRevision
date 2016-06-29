@@ -19696,8 +19696,8 @@
 	var React = __webpack_require__(1);
 	var AccountBox = __webpack_require__(160);
 	var sampleAccounts = __webpack_require__(161);
-	var FormBox = __webpack_require__(164);
-	var _ = __webpack_require__(162);
+	var FormBox = __webpack_require__(162);
+	var _ = __webpack_require__(163);
 	
 	var BankBox = React.createClass({
 	    displayName: 'BankBox',
@@ -19805,29 +19805,37 @@
 	            'div',
 	            null,
 	            React.createElement(
-	                'h4',
-	                null,
-	                'Bank Box'
+	                'div',
+	                { className: 'header', id: 'emboss' },
+	                React.createElement(
+	                    'h1',
+	                    null,
+	                    'Z & D Bank'
+	                )
 	            ),
 	            React.createElement(
-	                'p',
-	                null,
-	                'Total money: £',
-	                this.totalOfAllAccounts()
-	            ),
-	            React.createElement(AccountBox, {
-	                onAccountDelete: this.deleteAccount,
-	                type: "Personal",
-	                accounts: this.separateAccountsByType('Personal'),
-	                totalType: this.totalByAccountType('Personal')
-	            }),
-	            React.createElement(AccountBox, {
-	                onAccountDelete: this.deleteAccount,
-	                type: "Business",
-	                accounts: this.separateAccountsByType('Business'),
-	                totalType: this.totalByAccountType('Business')
-	            }),
-	            React.createElement(FormBox, { newAccount: this.createNewAccount })
+	                'div',
+	                { id: 'main' },
+	                React.createElement(
+	                    'p',
+	                    null,
+	                    'Total money: £',
+	                    this.totalOfAllAccounts()
+	                ),
+	                React.createElement(AccountBox, {
+	                    onAccountDelete: this.deleteAccount,
+	                    type: "Personal",
+	                    accounts: this.separateAccountsByType('Personal'),
+	                    totalType: this.totalByAccountType('Personal')
+	                }),
+	                React.createElement(AccountBox, {
+	                    onAccountDelete: this.deleteAccount,
+	                    type: "Business",
+	                    accounts: this.separateAccountsByType('Business'),
+	                    totalType: this.totalByAccountType('Business')
+	                }),
+	                React.createElement(FormBox, { newAccount: this.createNewAccount })
+	            )
 	        );
 	    }
 	
@@ -19862,7 +19870,7 @@
 	                    'Name: ',
 	                    _.capitalize(acc.owner),
 	                    ', Amount: £',
-	                    acc.amount
+	                    acc.amount.toLocaleString()
 	                ),
 	                React.createElement(
 	                    'button',
@@ -19915,6 +19923,92 @@
 
 /***/ },
 /* 162 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	var FormBox = React.createClass({
+	    displayName: "FormBox",
+	
+	
+	    getInitialState: function getInitialState() {
+	        return {
+	            owner: "",
+	            amount: 0,
+	            type: "Personal"
+	        };
+	    },
+	
+	    handleSelectChange: function handleSelectChange(e) {
+	        e.preventDefault();
+	        var newType = e.target.options[e.target.selectedIndex].value;
+	        this.setState({ type: newType });
+	    },
+	
+	    handleOwnerChange: function handleOwnerChange(e) {
+	        this.setState({ owner: e.target.value });
+	    },
+	
+	    handleAmountChange: function handleAmountChange(e) {
+	        this.setState({ amount: e.target.value });
+	    },
+	
+	    handleSubmit: function handleSubmit(e) {
+	        e.preventDefault();
+	        this.props.newAccount(this.state);
+	    },
+	
+	    render: function render() {
+	        return React.createElement(
+	            "div",
+	            null,
+	            React.createElement(
+	                "h3",
+	                null,
+	                "Create a New Account"
+	            ),
+	            React.createElement(
+	                "form",
+	                { onSubmit: this.handleSubmit },
+	                React.createElement("input", {
+	                    type: "text",
+	                    placeholder: "Name",
+	                    value: this.state.owner,
+	                    onChange: this.handleOwnerChange
+	                }),
+	                React.createElement("input", {
+	                    type: "number",
+	                    placeholder: "Opening balance",
+	                    value: this.state.amount,
+	                    onChange: this.handleAmountChange
+	                }),
+	                React.createElement(
+	                    "select",
+	                    { value: this.state.type, onChange: this.handleSelectChange },
+	                    React.createElement(
+	                        "option",
+	                        { value: "Personal" },
+	                        "Personal"
+	                    ),
+	                    React.createElement(
+	                        "option",
+	                        { value: "Business" },
+	                        "Business"
+	                    )
+	                ),
+	                React.createElement("input", { type: "submit", value: "Add Account" })
+	            )
+	        );
+	    }
+	
+	});
+	
+	module.exports = FormBox;
+
+/***/ },
+/* 163 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/**
@@ -36322,10 +36416,10 @@
 	  }
 	}.call(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(163)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(164)(module), (function() { return this; }())))
 
 /***/ },
-/* 163 */
+/* 164 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -36339,92 +36433,6 @@
 		return module;
 	}
 
-
-/***/ },
-/* 164 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var React = __webpack_require__(1);
-	
-	var FormBox = React.createClass({
-	    displayName: "FormBox",
-	
-	
-	    getInitialState: function getInitialState() {
-	        return {
-	            owner: "",
-	            amount: 0,
-	            type: "Personal"
-	        };
-	    },
-	
-	    handleSelectChange: function handleSelectChange(e) {
-	        e.preventDefault();
-	        var newType = e.target.options[e.target.selectedIndex].value;
-	        this.setState({ type: newType });
-	    },
-	
-	    handleOwnerChange: function handleOwnerChange(e) {
-	        this.setState({ owner: e.target.value });
-	    },
-	
-	    handleAmountChange: function handleAmountChange(e) {
-	        this.setState({ amount: e.target.value });
-	    },
-	
-	    handleSubmit: function handleSubmit(e) {
-	        e.preventDefault();
-	        this.props.newAccount(this.state);
-	    },
-	
-	    render: function render() {
-	        return React.createElement(
-	            "div",
-	            null,
-	            React.createElement(
-	                "h3",
-	                null,
-	                "Create a New Account"
-	            ),
-	            React.createElement(
-	                "form",
-	                { onSubmit: this.handleSubmit },
-	                React.createElement("input", {
-	                    type: "text",
-	                    placeholder: "Name",
-	                    value: this.state.owner,
-	                    onChange: this.handleOwnerChange
-	                }),
-	                React.createElement("input", {
-	                    type: "number",
-	                    placeholder: "Opening balance",
-	                    value: this.state.amount,
-	                    onChange: this.handleAmountChange
-	                }),
-	                React.createElement(
-	                    "select",
-	                    { value: this.state.type, onChange: this.handleSelectChange },
-	                    React.createElement(
-	                        "option",
-	                        { value: "Personal" },
-	                        "Personal"
-	                    ),
-	                    React.createElement(
-	                        "option",
-	                        { value: "Business" },
-	                        "Business"
-	                    )
-	                ),
-	                React.createElement("input", { type: "submit", value: "Add Account" })
-	            )
-	        );
-	    }
-	
-	});
-	
-	module.exports = FormBox;
 
 /***/ }
 /******/ ]);
